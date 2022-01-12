@@ -1,10 +1,10 @@
 package apiestagio.api.service;
 
+import java.util.List;
 
-import apiestagio.api.model.User;
-
-public interface UserService {
-    User signup(User user);
-    User singin(String email, String password);
-    User update(User user);
+public interface UserService<T> {
+    T signup(T user);
+    T singin(String email, String password);
+    T update(T user);
+    List<T> listAll();
 }

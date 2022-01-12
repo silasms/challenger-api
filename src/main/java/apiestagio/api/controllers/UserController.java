@@ -1,15 +1,10 @@
 package apiestagio.api.controllers;
 
 import apiestagio.api.model.User;
-import apiestagio.api.service.UserService;
 import apiestagio.api.service.impl.UserServiceImpl;
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -20,16 +15,35 @@ public class UserController {
 
     @PostMapping("/signup")
     private ResponseEntity signup(@RequestBody User user) {
-        return ResponseEntity.ok(userService.signup(user));
+        User userRegistration = userService.signup(user);
+        if(userRegistration != null) {
+            return ResponseEntity.ok(userRegistration);
+        }
+        return ResponseEntity.internalServerError().body("Error: The user already exists");
     }
 
     @PostMapping("/signin")
     private ResponseEntity signin(@RequestBody User user) {
-        return ResponseEntity.ok(userService.singin(user.getEmail(), user.getPassword()));
+        try{
+            User userLogin = userService.singin(user.getEmail(), user.getPassword());
+            return ResponseEntity.ok(userLogin);
+        } catch (Exception err) {
+            return ResponseEntity.internalServerError().body("Error: Email or Password incorrect");
+        }
     }
 
-    @PostMapping("/update")
+    @PutMapping("/update")
     private ResponseEntity update(@RequestBody User user) {
-        return ResponseEntity.ok(userService.update(user));
+        try {
+            User userUpdate = userService.update(user);
+            return ResponseEntity.ok(userUpdate);
+        } catch (Exception err) {
+            return ResponseEntity.internalServerError().body("Error: Email or Password incorrect");
+        }
+    }
+
+    @GetMapping("/listall")
+    private ResponseEntity listAll() {
+        return ResponseEntity.ok(userService.listAll());
     }
 }

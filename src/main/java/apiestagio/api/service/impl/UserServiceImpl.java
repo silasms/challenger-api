@@ -7,8 +7,11 @@ import apiestagio.api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService<User> {
 
     @Autowired
     private UserRepository userRepository;
@@ -33,5 +36,17 @@ public class UserServiceImpl implements UserService {
             userEntity.setName(user.getName());
         }
         return new User(userRepository.saveAndFlush(userEntity));
+    }
+
+    @Override
+    public List<User> listAll() {
+        List<User> userList = new ArrayList<>();
+        List<UserEntity> userEntityList = userRepository.findAll();
+
+        userEntityList.forEach(userEntity -> {
+            User user = new User(userRepository.getById(userEntity.getId()));
+            userList.add(user);
+        });
+        return userList;
     }
 }
