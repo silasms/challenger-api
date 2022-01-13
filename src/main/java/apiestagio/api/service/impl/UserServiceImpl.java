@@ -49,4 +49,14 @@ public class UserServiceImpl implements UserService<User> {
         });
         return userList;
     }
+
+    @Override
+    public String delete(Integer id) {
+        try {
+            userRepository.deleteById(id);
+            return "Successfully deleted";
+        } catch (Exception err) {
+            return err.getMessage();
+        }
+    }
 }

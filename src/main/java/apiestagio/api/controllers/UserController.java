@@ -46,4 +46,9 @@ public class UserController {
     private ResponseEntity listAll() {
         return ResponseEntity.ok(userService.listAll());
     }
+
+    @DeleteMapping("/delete/{id}")
+    private ResponseEntity delete(@PathVariable Integer id) {
+        return ResponseEntity.ok(userService.delete(id));
+    }
 }

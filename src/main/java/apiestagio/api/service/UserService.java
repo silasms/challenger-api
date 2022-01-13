@@ -7,4 +7,5 @@ public interface UserService<T> {
     T singin(String email, String password);
     T update(T user);
     List<T> listAll();
+    String delete(Integer id);
 }
