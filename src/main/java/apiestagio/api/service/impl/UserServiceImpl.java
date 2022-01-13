@@ -16,6 +16,10 @@ public class UserServiceImpl implements UserService<User> {
     @Autowired
     private UserRepository userRepository;
 
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public User signup(User user) {
         UserEntity userEntity = new UserEntity(user);
@@ -32,9 +36,8 @@ public class UserServiceImpl implements UserService<User> {
     @Override
     public User update(User user) {
         UserEntity userEntity = userRepository.findByPasswordEmail(user.getEmail(), user.getPassword());
-        if(userEntity.getName() != null) {
-            userEntity.setName(user.getName());
-        }
+        if (userEntity == null) return null;
+        userEntity.setName(user.getName());
         return new User(userRepository.saveAndFlush(userEntity));
     }
 
