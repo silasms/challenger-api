@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService<User> {
     }
 
     @Override
-    public User singin(String email, String password) {
+    public User signin(String email, String password) {
         UserEntity userEntity = userRepository.findByPasswordEmail(email, password);
         return new User(userEntity);
     }

@@ -34,7 +34,7 @@ class ApiApplicationTests extends UserTestConfig {
 		User login = userService.signup(user);
 		assertEquals("Silas", login.getName());
 		Mockito.when(userRepository.findByPasswordEmail(any(), any())).thenReturn(userEntity);
-		User userResponse = userService.singin(user.getEmail(), user.getPassword());
+		User userResponse = userService.signin(user.getEmail(), user.getPassword());
 		assertEquals("Silas", userResponse.getName());
 	}
 }
